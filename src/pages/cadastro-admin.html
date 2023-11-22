@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Cadastro de Administrador</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0; /* Remover margens padrão do body */
+        }
+
+        /* Adiciona blur ao elemento de fundo */
+        .background {
+            background: url('https://th.bing.com/th/id/OIG._AnwW85Q.dtJ5RPT_3D7?pid=ImgGn&w=1024&h=1024&rs=1') fixed center;
+            background-size: cover;
+            filter: blur(5px);
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- Adiciona um elemento de fundo com blur -->
+    <div class="background"></div>
+
+    <div class="bg-opacity-75 bg-gray-800 p-8 rounded shadow-md w-96 text-white content">
+        <div class="flex items-center mb-6">
+            <h1 class="text-2xl font-bold whitespace-nowrap">Cadastro de Administrador</h1>
+        </div>
+        <form action="/register-admin" method="post">
+            <div class="mb-4">
+                <label for="nome" class="block text-gray-300 text-sm font-bold mb-2">Nome</label>
+                <input type="text" id="nome" name="nome" class="w-full p-2 bg-gray-700 border rounded-md" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-300 text-sm font-bold mb-2">E-mail</label>
+                <input type="email" id="email" name="email" class="w-full p-2 bg-gray-700 border rounded-md" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="senha" class="block text-gray-300 text-sm font-bold mb-2">Senha</label>
+                <input type="password" id="senha" name="senha" class="w-full p-2 bg-gray-700 border rounded-md" required>
+            </div>
+
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                Cadastrar Administrador
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

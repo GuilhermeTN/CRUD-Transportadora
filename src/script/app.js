@@ -4,15 +4,23 @@ const port = 3000;
 const path = require("path");
 const router = require("../routers/index");
 const bodyParser = require('body-parser');
-const { cadastrarUsuario } = require('../Infraestrutura/database');
+const bcrypt = require('bcrypt');
 
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../../'));
-app.use(express.static(path.join(__dirname, "../../")));
-app.use(express.static(path.join(__dirname, "../../src/pages")));
+//config do bodyparse
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+const { cadastrarUsuario } = require('../Infraestrutura/database');
+const loginRouter = require("../routers/Login-PageRouter");
+app.use("/", loginRouter);
+app.get("/Login-Page", (req, res) => {
+    const filepath = path.join(__dirname, "../pages/Login-page.html");
+    res.sendFile(filepath);
+});
+
+app.use(express.static(path.join(__dirname, "../../")));
+app.use(express.static(path.join(__dirname, "../../src/pages")));
 
 router(app);
 
@@ -32,7 +40,6 @@ app.post('/register', (req, res) => {
     // Responde ao cliente
     res.redirect("/Admin-page");
 });
-
 
 app.listen(port, (error) => {
     if (error) {
