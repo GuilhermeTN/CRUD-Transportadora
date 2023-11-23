@@ -5,11 +5,26 @@ const path = require("path");
 const router = require("../routers/index");
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
+
+
+//config do express-session
+app.use(session({
+    secret: 'GuiTN83.',
+    resave: false,
+    saveUninitialized: true
+}));
+
 
 //config do bodyparse
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('view engine', 'ejs'); // Esta linha configura o EJS
+app.set('views', path.join(__dirname, '../../src/views'));
+
+app.use(express.static(path.join(__dirname, "../../")));
+app.use(express.static(path.join(__dirname, "../../src/pages")))
 
 const { cadastrarUsuario } = require('../Infraestrutura/database');
 const loginRouter = require("../routers/Login-PageRouter");
@@ -19,8 +34,7 @@ app.get("/Login-Page", (req, res) => {
     res.sendFile(filepath);
 });
 
-app.use(express.static(path.join(__dirname, "../../")));
-app.use(express.static(path.join(__dirname, "../../src/pages")));
+
 
 router(app);
 

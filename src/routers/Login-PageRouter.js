@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const path = require("path");
-const { autenticarUsuario } = require('../Infraestrutura/database'); // Importa a função para autenticar usuário
+const { autenticarUsuario } = require('../Infraestrutura/database');
 
 router.post("/Login-Page", async (req, res) => {
     const { email, senha } = req.body;
@@ -11,20 +11,28 @@ router.post("/Login-Page", async (req, res) => {
     }
 
     try {
-        const usuario = await autenticarUsuario(email, senha);
+        const usuarioAutenticado = await autenticarUsuario(email, senha);
 
-        if (usuario.senhaCorreta) {
-            if (usuario.isAdmin) {
-                res.redirect("/Admin-page");
-            } else {
-                res.send("Você é um usuário normal.");
+        if (usuarioAutenticado) {
+            req.session.usuario = {
+                id: usuarioAutenticado.id,
+                nome: usuarioAutenticado.nome,
+                email: usuarioAutenticado.email,
+                isAdmin: !!usuarioAutenticado.isAdmin, // Garante que isAdmin é booleano
+            };
+
+
+            if (usuarioAutenticado.isAdmin) {
+                return res.redirect("/Admin-page");
             }
+
+            return res.redirect("/Dashboard");
         } else {
-            res.status(401).send("Falha na autenticação. Verifique suas credenciais.");
+            return res.status(401).send("Falha na autenticação. Verifique suas credenciais.");
         }
     } catch (error) {
         console.error("Erro durante autenticação:", error);
-        res.status(500).send("Erro interno do servidor.");
+        return res.status(500).send("Erro interno do servidor.");
     }
 });
 

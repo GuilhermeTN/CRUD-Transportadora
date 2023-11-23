@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-cover bg-center h-screen" style="background-image: url('https://th.bing.com/th/id/OIG._AnwW85Q.dtJ5RPT_3D7?pid=ImgGn&w=1024&h=1024&rs=1');">
+    <!-- Barra de Navegação -->
+    <nav class="flex justify-between items-center p-2 md:p-4 lg:p-6 bg-gray-800 text-white">
+        <div id="logo" class="px-4 md:px-6">
+            <h1 class="text-lg md:text-2xl font-bold text-white">Dream<span class="text-green-500">Log</span></h1>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="relative group inline-block">
+                <button
+                    class="text-white focus:outline-none group-hover:text-gray-300"
+                    aria-label="Options"
+                    onClick="toggleDropdown()"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="dropdown" class="absolute hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Verificar Fretes</a>
+                        </li>
+                    </ul>
+                    <div class="py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Deslogar</a>
+                    </div>
+                </div>
+            </div>
+            <span class="hidden md:inline-block lg:inline-block"><%= usuario.nome %></span>
+            <img src="caminho_para_a_imagem_do_usuario.jpg" alt="Imagem do Usuário"
+                class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full">
+        </div>
+    </nav>
+
+    <div class="flex items-center justify-center h-screen">
+        <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-900 text-white p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
+            <form class="w-full" enctype="multipart/form-data"> <label
+                class="block text-gray-300 text-sm font-bold mb-2" for="name">Nome:</label> <input
+                class="w-full p-2 mb-4" type="text" id="name" name="name" placeholder="Seu Nome"> <label
+                class="block text-gray-300 text-sm font-bold mb-2" for="phone">Telefone:</label> <input
+                class="w-full p-2 mb-4" type="tel" id="phone" name="phone" placeholder="Seu Telefone"> <label
+                class="block text-gray-300 text-sm font-bold mb-2" for="address">Endereço:</label> <input
+                class="w-full p-2 mb-4" type="text" id="address" name="address" placeholder="Seu Endereço"> <label
+                class="block text-gray-300 text-sm font-bold mb-2" for="profilePic">Foto de Perfil:</label> <input
+                type="file" id="profilePic" name="profilePic" accept="image/*" class="mb-4"> <button
+                class="bg-green-500 text-white p-2 rounded w-full hover:bg-green-600 transition-colors duration-300"
+                type="submit">Salvar Alterações</button> </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+    </script>
+</body>
+
+</html>

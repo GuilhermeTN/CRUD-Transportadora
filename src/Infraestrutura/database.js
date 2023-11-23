@@ -59,4 +59,31 @@ function autenticarUsuario(email, senha) {
     });
 }
 
-module.exports = { cadastrarUsuario, autenticarUsuario };
+function autenticarUsuarioPorId(id) {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT id, nome, email, isAdmin FROM usuarios WHERE id = ?';
+
+        mysqlConnection.query(query, [id], (err, results) => {
+            if (err) {
+                console.error("Erro ao buscar usuário por ID no banco de dados:", err);
+                return reject(err);
+            }
+
+            const usuarioDoBancoDeDados = results[0];
+
+            if (!usuarioDoBancoDeDados) {
+                console.error("Usuário não encontrado no banco de dados.");
+                return reject(new Error("Usuário não encontrado"));
+            }
+
+            resolve({
+                id: usuarioDoBancoDeDados.id,
+                nome: usuarioDoBancoDeDados.nome,
+                email: usuarioDoBancoDeDados.email,
+                isAdmin: usuarioDoBancoDeDados.isAdmin,
+            });
+        });
+    });
+}
+
+module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId };
