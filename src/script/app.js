@@ -39,14 +39,14 @@ app.get("/Login-Page", (req, res) => {
 router(app);
 
 app.post('/register', (req, res) => {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, telefone, endereco } = req.body;
 
     // Verifica se todos os campos necessários foram fornecidos
-    if (!nome || !email || !senha) {
+    if (!nome || !email || !senha || !telefone || !endereco) {
         return res.status(400).send("Todos os campos são obrigatórios.");
     }
 
-    const usuario = { nome, email, senha };
+    const usuario = { nome, email, senha, telefone, endereco };
 
     // Chama a função para cadastrar o usuário no banco de dados
     cadastrarUsuario(usuario);

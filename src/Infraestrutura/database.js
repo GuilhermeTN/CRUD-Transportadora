@@ -1,27 +1,34 @@
 const mysqlConnection = require('./cadastroDB');
 const bcrypt = require('bcrypt');   
 
+
 function cadastrarUsuario(usuario) {
-    const { nome, email, senha, isAdmin } = usuario;
+    console.log("Início da função cadastrarUsuario");
+    const { nome, email, telefone, endereco, senha, isAdmin } = usuario;
 
-    bcrypt.hash(senha, 10, (err, hash) => {
-        if (err) {
-            console.error("Erro ao criar hash de senha: ", err);
-            return;
-        }
+    try {
+        console.log("Antes de criar hash de senha");
+        const hash = bcrypt.hashSync(senha, 10);
+        console.log("Depois de criar hash de senha");
 
-        const query = `INSERT INTO usuarios (nome, email, senha, isAdmin) VALUES (?, ?, ?, ?)`;
-        const values = [nome, email, hash, isAdmin];
+        const query = `INSERT INTO usuarios (nome, email, senha, isAdmin, telefone, endereco) VALUES (?, ?, ?, ?, ?, ?)`;
+        const values = [nome, email, hash, isAdmin, telefone, endereco];
+
+        console.log("Query de inserção:", query);
+        console.log("Valores:", values);
 
         mysqlConnection.query(query, values, (err, results) => {
             if (err) {
                 console.error("Erro ao cadastrar usuário: ", err);
                 return;
             }
+
             console.log("Usuário cadastrado com sucesso!");
             console.log("ID do usuário cadastrado:", results.insertId);
         });
-    });
+    } catch (error) {
+        console.error("Erro no bloco try:", error);
+    }
 }
 
 function autenticarUsuario(email, senha) {
@@ -86,4 +93,19 @@ function autenticarUsuarioPorId(id) {
     });
 }
 
-module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId };
+const atualizarUsuario = ({ nome, telefone, endereco, senha, id }) => {
+    const query = "UPDATE usuarios SET nome=?, telefone=?, endereco=?, senha=? WHERE id=?";
+    const values = [nome, telefone, endereco, senha, id];
+
+    // Execute a query no banco de dados
+    mysqlConnection.query(query, values, (err, results) => {
+        if (err) {
+            console.error("Erro ao atualizar dados do usuário no banco de dados: ", err);
+            // Trate o erro de forma adequada (envie uma resposta HTTP ou faça o redirecionamento)
+        } else {
+            console.log("Dados do usuário atualizados com sucesso!");
+            // Trate o sucesso de forma adequada (envie uma resposta HTTP ou faça o redirecionamento)
+        }
+    });
+};
+module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario };

@@ -14,20 +14,27 @@ router.post("/Login-Page", async (req, res) => {
         const usuarioAutenticado = await autenticarUsuario(email, senha);
 
         if (usuarioAutenticado) {
-            req.session.usuario = {
-                id: usuarioAutenticado.id,
-                nome: usuarioAutenticado.nome,
-                email: usuarioAutenticado.email,
-                isAdmin: !!usuarioAutenticado.isAdmin, // Garante que isAdmin é booleano
-            };
+            // Aqui, a comparação com a senha correta está incorreta
+            // Deveríamos verificar se senhaCorreta é true
+            if (usuarioAutenticado.senhaCorreta) {
+                req.session.usuario = {
+                    id: usuarioAutenticado.id,
+                    nome: usuarioAutenticado.nome,
+                    email: usuarioAutenticado.email,
+                    isAdmin: !!usuarioAutenticado.isAdmin,
+                };
 
+                if (usuarioAutenticado.isAdmin) {
+                    return res.redirect("/Admin-page");
+                }
 
-            if (usuarioAutenticado.isAdmin) {
-                return res.redirect("/Admin-page");
+                return res.redirect("/Dashboard");
+            } else {
+                // Se a senha não estiver correta, deve retornar uma mensagem de erro
+                return res.status(401).send("Falha na autenticação. Verifique suas credenciais.");
             }
-
-            return res.redirect("/Dashboard");
         } else {
+            // Se o usuário não foi autenticado, também deve retornar uma mensagem de erro
             return res.status(401).send("Falha na autenticação. Verifique suas credenciais.");
         }
     } catch (error) {
