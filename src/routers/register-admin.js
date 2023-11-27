@@ -3,7 +3,7 @@ const router = Router();
 const path = require("path");
 const { cadastrarUsuario } = require('../Infraestrutura/database');
 
-router.get("/register", (req, res) => {
+router.get("/register-admin", (req, res) => {
     const filepath = path.join(__dirname, "../pages/cadastro-admin.html");
     res.sendFile(filepath);
 });
@@ -21,8 +21,8 @@ router.post("/register-admin", (req, res) => {
     // Chama a função para cadastrar o usuário no banco de dados como admin
     cadastrarUsuario(usuario);
 
-    // Responde ao cliente
-    res.send("Você é admin!");
+    // Redireciona para a página de admin após o cadastro
+    res.redirect("/Admin-page");
 });
 
 module.exports = router;

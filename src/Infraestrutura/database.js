@@ -4,12 +4,16 @@ const bcrypt = require('bcrypt');
 
 function cadastrarUsuario(usuario) {
     console.log("Início da função cadastrarUsuario");
+
     const { nome, email, telefone, endereco, senha, isAdmin } = usuario;
 
-    try {
-        console.log("Antes de criar hash de senha");
-        const hash = bcrypt.hashSync(senha, 10);
-        console.log("Depois de criar hash de senha");
+    bcrypt.hash(senha, 10, (err, hash) => {
+        if (err) {
+            console.error("Erro ao criar hash de senha: ", err);
+            return;
+        }
+
+        console.log("Hash gerado com sucesso:", hash);
 
         const query = `INSERT INTO usuarios (nome, email, senha, isAdmin, telefone, endereco) VALUES (?, ?, ?, ?, ?, ?)`;
         const values = [nome, email, hash, isAdmin, telefone, endereco];
@@ -23,13 +27,14 @@ function cadastrarUsuario(usuario) {
                 return;
             }
 
+            console.log("Consulta executada com sucesso.");
             console.log("Usuário cadastrado com sucesso!");
             console.log("ID do usuário cadastrado:", results.insertId);
         });
-    } catch (error) {
-        console.error("Erro no bloco try:", error);
-    }
+    });
 }
+
+
 
 function autenticarUsuario(email, senha) {
     return new Promise((resolve, reject) => {

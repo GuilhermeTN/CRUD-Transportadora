@@ -8,24 +8,26 @@ router.get("/Create-Account", (req, res) => {
     res.sendFile(filepath);
 });
 
-router.post("/Create-Account", (req, res) => {
+router.post("/Create-Account", async (req, res) => {
+    console.log("Rota /Create-Account acionada");
+
     const { nome, email, senha } = req.body;
 
     // Verifica se todos os campos necessários foram fornecidos
     if (!nome || !email || !senha) {
-        console.log("Todos os campos são obrigatórios.");
+        console.log("Campos obrigatórios não fornecidos.");
         return res.status(400).send("Todos os campos são obrigatórios.");
     }
 
     const usuario = { nome, email, senha };
 
-    console.log("Antes de chamar cadastrarUsuario");
     // Chama a função para cadastrar o usuário no banco de dados
     cadastrarUsuario(usuario);
-    console.log("Depois de chamar cadastrarUsuario");
 
-    // Responde ao cliente
-    res.send("Usuário cadastrado com sucesso!");
+    console.log("Cadastrado com sucesso!");
+
+    // Remova o redirecionamento automático para fins de depuração
+    res.redirect("/Dashboard");
 });
 
 module.exports = router;

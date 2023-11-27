@@ -39,20 +39,20 @@ app.get("/Login-Page", (req, res) => {
 router(app);
 
 app.post('/register', (req, res) => {
-    const { nome, email, senha, telefone, endereco } = req.body;
+    const { nome, email, senha } = req.body;
 
     // Verifica se todos os campos necessários foram fornecidos
-    if (!nome || !email || !senha || !telefone || !endereco) {
+    if (!nome || !email || !senha) {
         return res.status(400).send("Todos os campos são obrigatórios.");
     }
 
-    const usuario = { nome, email, senha, telefone, endereco };
+    const usuario = { nome, email, senha };
 
     // Chama a função para cadastrar o usuário no banco de dados
     cadastrarUsuario(usuario);
 
     // Responde ao cliente
-    res.redirect("/Admin-page");
+    //res.redirect("/Admin-page");
 });
 
 app.listen(port, (error) => {
