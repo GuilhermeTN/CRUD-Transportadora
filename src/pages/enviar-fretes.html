@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Novo Frete</title>
+    <link href="/dist/output.css" rel="stylesheet">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        :root {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @supports (font-variation-settings: normal) {
+            :root {
+                font-family: 'Inter var', sans-serif;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-gray-100">
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-2 md:p-4 lg:p-6 bg-gray-800 text-white">
+        <div id="logo" class="px-4 md:px-6">
+            <h1 class="text-lg md:text-2xl font-bold text-white">Dream<span class="text-green-500">Log</span></h1>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="relative group inline-block">
+                <button
+                    class="text-white focus:outline-none group-hover:text-gray-300"
+                    aria-label="Options"
+                    onClick="toggleDropdown()"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="dropdown" class="absolute hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Verificar Fretes</a>
+                        </li>
+                    </ul>
+                    <div class="py-1">
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Deslogar</a>
+                    </div>
+                </div>
+            </div>
+            <span class="hidden md:inline-block lg:inline-block">Nome do Usuário</span>
+            <img src="https://img.freepik.com/vetores-premium/icone-de-perfil-de-usuario-em-estilo-plano-ilustracao-em-vetor-avatar-membro-em-fundo-isolado-conceito-de-negocio-de-sinal-de-permissao-humana_157943-15752.jpg"
+                alt="Imagem do Usuário" class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full">
+        </div>
+    </nav>
+
+    <!-- Conteúdo da Página -->
+    <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-900 p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
+        <!-- Formulário para Enviar Novo Frete -->
+        <form class="w-full">
+            <div class="mb-4">
+                <label class="w-full p-2 mb-4 text-white font-bold" for="localEntrega">Local de Entrega:</label>
+                <select id="localEntrega" name="localEntrega"
+                    class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                    <option value="--">--</option>
+                    <option value="AC" data-frete="40">Acre</option>
+                    <option value="AL" data-frete="20">Alagoas</option>
+                    <option value="AP" data-frete="30">Amapá</option>
+                    <option value="AM" data-frete="50">Amazonas</option>
+                    <option value="BA" data-frete="30">Bahia</option>
+                    <option value="CE" data-frete="30">Ceará</option>
+                    <option value="DF" data-frete="10">Distrito Federal</option>
+                    <option value="ES" data-frete="20">Espírito Santo</option>
+                    <option value="GO" data-frete="10">Goiás</option>
+                    <option value="MA" data-frete="40">Maranhão</option>
+                    <option value="MT" data-frete="20">Mato Grosso</option>
+                    <option value="MS" data-frete="20">Mato Grosso do Sul</option>
+                    <option value="MG" data-frete="20">Minas Gerais</option>
+                    <option value="PA" data-frete="40">Pará</option>
+                    <option value="PB" data-frete="30">Paraíba</option>
+                    <option value="PR" data-frete="10">Paraná</option>
+                    <option value="PE" data-frete="30">Pernambuco</option>
+                    <option value="PI" data-frete="40">Piauí</option>
+                    <option value="RJ" data-frete="20">Rio de Janeiro</option>
+                    <option value="RN" data-frete="30">Rio Grande do Norte</option>
+                    <option value="RS" data-frete="10">Rio Grande do Sul</option>
+                    <option value="RO" data-frete="30">Rondônia</option>
+                    <option value="RR" data-frete="50">Roraima</option>
+                    <option value="SC" data-frete="10">Santa Catarina</option>
+                    <option value="SP" data-frete="10">São Paulo</option>
+                    <option value="SE" data-frete="30">Sergipe</option>
+                    <option value="TO" data-frete="20">Tocantins</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="w-full p-2 mb-4 text-white font-bold" for="valorFrete">Valor do Frete:</label>
+                <input class="w-full p-2 mb-4 bg-gray-300 text-black" id="valorFrete" name="valorFrete" type="text" readonly>
+            </div>
+            <div class="mb-4">
+                <label class="w-full p-2 mb-4 text-white font-bold" for="tamanhoPacote">Tamanho do Pacote:</label>
+                <select id="TamanhoPacote" name="TamanhoPacote"
+                    class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                    <option value="Pequeno">Pequeno</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Grande">Grande</option>
+            </div>
+            <div class="flex items-center justify-center">
+                <button
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300"
+                    type="submit">
+                    Enviar Frete
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+    
+        const localEntregaSelect = document.getElementById('localEntrega');
+    const valorFreteInput = document.getElementById('valorFrete');
+    const valorFretePorEstado = {
+        AC: 10, AL: 20, AP: 30, AM: 40, BA: 50, CE: 60, DF: 10, ES: 20, GO: 30,
+        MA: 40, MT: 50, MS: 60, MG: 10, PA: 20, PB: 30, PR: 40, PE: 50, PI: 60,
+        RJ: 10, RN: 20, RS: 30, RO: 40, RR: 50, SC: 60, SP: 10, SE: 20, TO: 30
+    };
+
+    localEntregaSelect.addEventListener('change', () => {
+        const estadoSelecionado = localEntregaSelect.value;
+        const valorFrete = valorFretePorEstado[estadoSelecionado] || 0;
+        valorFreteInput.value = `R$ ${valorFrete.toFixed(2)}`;
+    });
+    
+    </script>
+    
+    
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="/dist/output.css" rel="stylesheet">
+        <link rel="preconnect" href="https://rsms.me/">
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <style>
+            :root { font-family: 'Inter', sans-serif; }
+        @supports (font-variation-settings: normal) {
+        :root { font-family: 'Inter var', sans-serif; }
+        }
+        </style>
+    </head>
+<body class="font-sans bg-gray-100">
+    <!-- Navbar (copiada da página usuario-config.ejs) -->
+    <nav class="flex justify-between items-center p-2 md:p-4 lg:p-6 bg-gray-800 text-white">
+        <div id="logo" class="px-4 md:px-6">
+            <h1 class="text-lg md:text-2xl font-bold text-white">Dream<span class="text-green-500">Log</span></h1>
+        </div>
+        <div class="flex items-center space-x-2">
+            <div class="relative group inline-block">
+                <button
+                    class="text-white focus:outline-none group-hover:text-gray-300"
+                    aria-label="Options"
+                    onClick="toggleDropdown()"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="dropdown" class="absolute hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Verificar Fretes</a>
+                        </li>
+                    </ul>
+                    <div class="py-1">
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Deslogar</a>
+                    </div>
+                </div>
+            </div>
+            <span class="hidden md:inline-block lg:inline-block"><%= usuario.nome %></span>
+            <img src="https://img.freepik.com/vetores-premium/icone-de-perfil-de-usuario-em-estilo-plano-ilustracao-em-vetor-avatar-membro-em-fundo-isolado-conceito-de-negocio-de-sinal-de-permissao-humana_157943-15752.jpg" alt="Imagem do Usuário"
+                class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full">
+        </div>
+    </nav>
+
+    <!-- Conteúdo da Página -->
+    <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-900 p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
+        <!-- Tabela de Fretes com Tailwind CSS personalizado -->
+        <table class="w-full border border-gray-300 bg-white rounded shadow">
+            <thead class="bg-gray-900 text-white">
+                <tr>
+                    <th class="border-b px-4 py-2">Local de Entrega</th>
+                    <th class="border-b px-4 py-2">Local de Saída</th>
+                    <th class="border-b px-4 py-2">Valor do Frete</th>
+                    <th class="border-b px-4 py-2">Tamanho do Pacote</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Substitua os dados de exemplo pelos seus dados reais -->
+                <tr>
+                    <td class="border px-4 py-2">Cidade A</td>
+                    <td class="border px-4 py-2">Cidade B</td>
+                    <td class="border px-4 py-2">$100</td>
+                    <td class="border px-4 py-2">Pequeno</td>
+                </tr>
+                <tr>
+                    <td class="border px-4 py-2">Cidade C</td>
+                    <td class="border px-4 py-2">Cidade D</td>
+                    <td class="border px-4 py-2">$150</td>
+                    <td class="border px-4 py-2">Médio</td>
+                </tr>
+                <!-- Adicione mais linhas conforme necessário -->
+            </tbody>
+        </table>
+    
+        <!-- Botão "Enviar Novo Frete" com Tailwind CSS personalizado -->
+        <div class="mt-4">
+            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300" type="button">
+                Enviar Novo Frete
+            </button>
+        </div>
+    </div>
+    
+    
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+    const successMessage = urlParams.get('success');
+
+    if (successMessage === 'true') {
+        const modal = document.getElementById('myModal');
+        modal.classList.remove('hidden');
+
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 3000);
+    }
+    const closeModalButton = document.getElementById('closeModalButton');
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    }
+    </script>
+</body>
+</html>
