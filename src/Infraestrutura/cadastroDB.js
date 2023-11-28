@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'transportadora-database.ceyjarxwq9g2.sa-east-1.rds.amazonaws.com',
     user: 'GuilhermeTN',
     password: 'GuiTN83.',
     database: 'cadastro_db'
