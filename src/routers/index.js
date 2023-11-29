@@ -5,6 +5,7 @@
     const routerUsuariosPage = require("./UsuariosEditRouter");
     const routerDashboard = require("./Dashboard");
     const routerConfigUsuario = require("./usuarioConfigRouter");
+    const routerConfigEnviarFretes = require("./enviarFretesRouter");
 
     module.exports = (app) => {
         app.use(routerCreateAccont);
@@ -14,4 +15,5 @@
         app.use(routerUsuariosPage);
         app.use(routerDashboard);
         app.use(routerConfigUsuario);
+        app.use(routerConfigEnviarFretes);
     }

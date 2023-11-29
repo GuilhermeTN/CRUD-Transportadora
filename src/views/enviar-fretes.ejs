@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body class="font-sans bg-gray-100">
+<body class="font-sans bg-gray-700 ">
     <!-- Navbar -->
     <nav class="flex justify-between items-center p-2 md:p-4 lg:p-6 bg-gray-800 text-white">
         <div id="logo" class="px-4 md:px-6">
@@ -54,14 +54,14 @@
                     </div>
                 </div>
             </div>
-            <span class="hidden md:inline-block lg:inline-block">Nome do Usuário</span>
+            <span class="hidden md:inline-block lg:inline-block"><%= usuario.nome %></span>
             <img src="https://img.freepik.com/vetores-premium/icone-de-perfil-de-usuario-em-estilo-plano-ilustracao-em-vetor-avatar-membro-em-fundo-isolado-conceito-de-negocio-de-sinal-de-permissao-humana_157943-15752.jpg"
                 alt="Imagem do Usuário" class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full">
         </div>
     </nav>
 
     <!-- Conteúdo da Página -->
-    <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-900 p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
+    <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-800 p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
         <!-- Formulário para Enviar Novo Frete -->
         <form class="w-full">
             <div class="mb-4">
@@ -104,16 +104,21 @@
             </div>
             <div class="mb-4">
                 <label class="w-full p-2 mb-4 text-white font-bold" for="tamanhoPacote">Tamanho do Pacote:</label>
-                <select id="TamanhoPacote" name="TamanhoPacote"
+                <select id="tamanhoPacote" name="tamanhoPacote"
                     class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-                    <option value="Pequeno">Pequeno</option>
-                    <option value="Medio">Medio</option>
-                    <option value="Grande">Grande</option>
+                    <option value="pequeno">Pequeno</option>
+                    <option value="medio">Médio</option>
+                    <option value="grande">Grande</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="w-full p-2 mb-4 text-white font-bold" for="valorTotal">Total:</label>
+                <h1 id="total" class="text-2xl font-bold text-green-500">R$ 0.00</h1>
             </div>
             <div class="flex items-center justify-center">
                 <button
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300"
-                    type="submit">
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300"
+                    type="button" onclick="calcularTotal()">
                     Enviar Frete
                 </button>
             </div>
@@ -127,21 +132,37 @@
         }
     
         const localEntregaSelect = document.getElementById('localEntrega');
-    const valorFreteInput = document.getElementById('valorFrete');
-    const valorFretePorEstado = {
-        AC: 10, AL: 20, AP: 30, AM: 40, BA: 50, CE: 60, DF: 10, ES: 20, GO: 30,
-        MA: 40, MT: 50, MS: 60, MG: 10, PA: 20, PB: 30, PR: 40, PE: 50, PI: 60,
-        RJ: 10, RN: 20, RS: 30, RO: 40, RR: 50, SC: 60, SP: 10, SE: 20, TO: 30
-    };
+        const tamanhoPacoteSelect = document.getElementById('tamanhoPacote');
+        const valorFreteInput = document.getElementById('valorFrete');
+        const totalElement = document.getElementById('total');
+        
+        const valorFretePorEstado = {
+            AC: 10, AL: 20, AP: 30, AM: 40, BA: 50, CE: 60, DF: 10, ES: 20, GO: 30,
+            MA: 40, MT: 50, MS: 60, MG: 10, PA: 20, PB: 30, PR: 40, PE: 50, PI: 60,
+            RJ: 10, RN: 20, RS: 30, RO: 40, RR: 50, SC: 60, SP: 10, SE: 20, TO: 30
+        };
+        
+        const valorTamanhoPacote = {
+            pequeno: 10,
+            medio: 15,
+            grande: 20
+        };
 
-    localEntregaSelect.addEventListener('change', () => {
-        const estadoSelecionado = localEntregaSelect.value;
-        const valorFrete = valorFretePorEstado[estadoSelecionado] || 0;
-        valorFreteInput.value = `R$ ${valorFrete.toFixed(2)}`;
-    });
-    
+        localEntregaSelect.addEventListener('change', calcularFrete);
+
+        tamanhoPacoteSelect.addEventListener('change', calcularFrete);
+
+        function calcularFrete() {
+            const estadoSelecionado = localEntregaSelect.value;
+            const tamanhoPacoteSelecionado = tamanhoPacoteSelect.value;
+            const valorFrete = valorFretePorEstado[estadoSelecionado] || 0;
+            const valorTamanho = valorTamanhoPacote[tamanhoPacoteSelecionado] || 0;
+            valorFreteInput.value = `R$ ${valorFrete.toFixed(2)}`;
+            
+            const total = valorFrete + valorTamanho;
+            totalElement.textContent = `R$ ${total.toFixed(2)}`;
+        }
     </script>
-    
     
 </body>
 
