@@ -14,18 +14,16 @@ router.post("/Login-Page", async (req, res) => {
         const usuarioAutenticado = await autenticarUsuario(email, senha);
 
         if (usuarioAutenticado) {
+            const { id, nome, email, isAdmin } = usuarioAutenticado;
+
             req.session.usuario = {
-                id: usuarioAutenticado.id,
-                nome: usuarioAutenticado.nome,
-                email: usuarioAutenticado.email,
-                isAdmin: !!usuarioAutenticado.isAdmin,
+                id,
+                nome,
+                email,
+                isAdmin: !!isAdmin,
             };
 
-            if (usuarioAutenticado.isAdmin) {
-                return res.redirect("/Admin-page");
-            }
-
-            return res.redirect("/Dashboard");
+            return res.redirect(isAdmin ? "/Admin-page" : "/Dashboard");
         } else {
             return res.status(401).send("Falha na autenticação. Verifique suas credenciais.");
         }

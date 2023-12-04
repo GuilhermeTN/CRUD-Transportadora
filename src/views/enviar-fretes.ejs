@@ -25,7 +25,9 @@
     <!-- Navbar -->
     <nav class="flex justify-between items-center p-2 md:p-4 lg:p-6 bg-gray-800 text-white">
         <div id="logo" class="px-4 md:px-6">
-            <h1 class="text-lg md:text-2xl font-bold text-white">Dream<span class="text-green-500">Log</span></h1>
+            <a href="/Dashboard">    
+                <h1 class="text-lg md:text-2xl font-bold text-white">Dream<span class="text-green-500">Log</span></h1>
+            </a>
         </div>
         <div class="flex items-center space-x-2">
             <div class="relative group inline-block">
@@ -63,7 +65,7 @@
     <!-- Conteúdo da Página -->
     <div class="max-h-screen overflow-y-auto w-full sm:w-2/3 md:w-1/2 lg:w-2/3 xl:w-1/2 bg-gray-800 p-4 md:p-8 rounded shadow-md mt-8 mx-auto">
         <!-- Formulário para Enviar Novo Frete -->
-        <form class="w-full">
+        <form action="/enviarfretes" method="post" class="w-full">
             <div class="mb-4">
                 <label class="w-full p-2 mb-4 text-white font-bold" for="localEntrega">Local de Entrega:</label>
                 <select id="localEntrega" name="localEntrega"
@@ -118,10 +120,11 @@
             <div class="flex items-center justify-center">
                 <button
                     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300"
-                    type="button" onclick="calcularTotal()">
+                    type="submit" onclick="calcularTotal()">
                     Enviar Frete
                 </button>
             </div>
+            <input type="hidden" id="totalHidden" name="total" value="0">
         </form>
     </div>
 
@@ -153,15 +156,18 @@
         tamanhoPacoteSelect.addEventListener('change', calcularFrete);
 
         function calcularFrete() {
-            const estadoSelecionado = localEntregaSelect.value;
-            const tamanhoPacoteSelecionado = tamanhoPacoteSelect.value;
-            const valorFrete = valorFretePorEstado[estadoSelecionado] || 0;
-            const valorTamanho = valorTamanhoPacote[tamanhoPacoteSelecionado] || 0;
-            valorFreteInput.value = `R$ ${valorFrete.toFixed(2)}`;
-            
-            const total = valorFrete + valorTamanho;
-            totalElement.textContent = `R$ ${total.toFixed(2)}`;
-        }
+        const estadoSelecionado = localEntregaSelect.value;
+        const tamanhoPacoteSelecionado = tamanhoPacoteSelect.value;
+        const valorFrete = valorFretePorEstado[estadoSelecionado] || 0;
+        const valorTamanho = valorTamanhoPacote[tamanhoPacoteSelecionado] || 0;
+        valorFreteInput.value = `R$ ${valorFrete.toFixed(2)}`;
+
+        const total = valorFrete + valorTamanho;
+        totalElement.textContent = `R$ ${total.toFixed(2)}`;
+
+        // Atualize o campo hidden com o valor total
+        document.getElementById('totalHidden').value = total.toFixed(2);
+    }
     </script>
     
 </body>

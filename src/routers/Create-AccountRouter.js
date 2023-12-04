@@ -4,27 +4,22 @@ const path = require("path");
 const { cadastrarUsuario } = require('../Infraestrutura/database');
 
 router.get("/Create-Account", (req, res) => {
-    const filepath = path.join(__dirname, "../pages/Create-Account.html");
-    res.sendFile(filepath);
+    res.sendFile(path.join(__dirname, "../pages/Create-Account.html"));
 });
 
 router.post("/Create-Account", async (req, res) => {
-    console.log("Rota /Create-Account acionada");
-
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, telefone, endereco } = req.body;
 
     // Verifica se todos os campos necessários foram fornecidos
-    if (!nome || !email || !senha) {
-        console.log("Campos obrigatórios não fornecidos.");
-        return res.status(400).send("Todos os campos são obrigatórios.");
+    if (!nome || !email || !senha || !endereco) {
+        return res.status(400).send("Todos os campos são obrigatórios, incluindo o endereço.");
     }
 
-    const usuario = { nome, email, senha };
+    // Crie o objeto usuario incluindo telefone e endereco
+    const usuario = { nome, email, senha, telefone, endereco };
 
     // Chama a função para cadastrar o usuário no banco de dados
     cadastrarUsuario(usuario);
-
-    console.log("Cadastrado com sucesso!");
 
     // Remova o redirecionamento automático para fins de depuração
     res.redirect("/Dashboard");
