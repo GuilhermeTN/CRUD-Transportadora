@@ -68,20 +68,15 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Substitua os dados de exemplo pelos seus dados reais -->
-                <tr>
-                    <td class="border px-4 py-2">Cidade A</td>
-                    <td class="border px-4 py-2">Cidade B</td>
-                    <td class="border px-4 py-2">$100</td>
-                    <td class="border px-4 py-2">Pequeno</td>
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">Cidade C</td>
-                    <td class="border px-4 py-2">Cidade D</td>
-                    <td class="border px-4 py-2">$150</td>
-                    <td class="border px-4 py-2">Médio</td>
-                </tr>
-                <!-- Adicione mais linhas conforme necessário -->
+                <!-- Loop sobre os fretes para exibi-los -->
+                <% fretes.forEach(frete => { %>
+                    <tr>
+                        <td class="border px-4 py-2"><%= frete.local_entrega %></td>
+                        <td class="border px-4 py-2"><%= frete.local_saida %></td>
+                        <td class="border px-4 py-2">$<%= frete.valor_frete %></td>
+                        <td class="border px-4 py-2"><%= frete.tamanho_pacote %></td>
+                    </tr>
+                <% }); %>
             </tbody>
         </table>
     

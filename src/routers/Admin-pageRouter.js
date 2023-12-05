@@ -7,7 +7,8 @@ const isAuthenticated = (req, res, next) => {
 };
 
 router.get("/Admin-page", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, "../pages/Admin-page.html"));
+    res.sendFile(path.join(__dirname, "../pages/Admin-page.ejs"));
+    res.render('Admin-Page', { usuario: req.session.usuario });
 });
 
 router.get("/logout", (req, res) => {

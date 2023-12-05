@@ -117,4 +117,15 @@ const inserirFrete = async ({ idUsuario, localEntrega, valorFrete, tamanhoPacote
     }
 };
 
-module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete };
+const obterFretesPorUsuario = async (idUsuario) => {
+    try {
+        const query = 'SELECT local_entrega, local_saida, valor_frete, tamanho_pacote FROM fretes WHERE id_usuario = ?';
+        const results = await executeQuery(query, [idUsuario]);
+        return results;
+    } catch (err) {
+        console.error('Erro ao obter fretes do banco de dados:', err);
+        throw err;
+    }
+};
+
+module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete, obterFretesPorUsuario };
