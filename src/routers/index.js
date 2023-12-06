@@ -7,6 +7,7 @@ const dashboardRouter = require("./Dashboard");
 const configUsuarioRouter = require("./usuarioConfigRouter");
 const configEnviarFretesRouter = require("./enviarFretesRouter");
 const configVerificarFretesRouter = require("./verificarFretesRouter");
+const removerUsuariosPageRouter = require("./RemoverUsuariosRouter");
 
 module.exports = (app) => {
     app.use(createAccountRouter);
@@ -14,6 +15,7 @@ module.exports = (app) => {
     app.use(adminPageRouter);
     app.use(registerPageRouter);
     app.use(usuariosPageRouter);
+    app.use(removerUsuariosPageRouter);
     app.use(dashboardRouter);
     app.use(configUsuarioRouter);
     app.use(configEnviarFretesRouter);

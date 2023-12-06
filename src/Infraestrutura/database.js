@@ -128,4 +128,50 @@ const obterFretesPorUsuario = async (idUsuario) => {
     }
 };
 
-module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete, obterFretesPorUsuario };
+const obterTodosUsuarios = async () => {
+    try {
+        const query = `
+        SELECT
+        u.nome,
+        u.email,
+        u.telefone,
+        IFNULL(f.local_entrega, 'N/A') AS local_entrega,
+        IFNULL(f.valor_frete, 'N/A') AS valor_frete
+    FROM usuarios u
+    LEFT JOIN fretes f ON u.id = f.id_usuario;`;
+
+        const results = await executeQuery(query);
+        return results;
+    } catch (error) {
+        console.error('Erro ao obter todos os usuários:', error);
+        throw error;
+    }
+};
+
+const removerUsuario = async (idUsuario) => {
+    try {
+        // Lógica para obter informações sobre o usuário antes da remoção
+        const queryObterUsuario = 'SELECT id, nome, email FROM usuarios WHERE id = ?';
+        const resultsUsuario = await executeQuery(queryObterUsuario, [idUsuario]);
+
+        if (!resultsUsuario[0]) {
+            console.error('Usuário não encontrado.');
+            throw new Error('Usuário não encontrado');
+        }
+
+        const infoUsuario = resultsUsuario[0];
+
+        // Lógica para remover o usuário
+        const queryRemoverUsuario = 'DELETE FROM usuarios WHERE id = ?';
+        await executeQuery(queryRemoverUsuario, [idUsuario]);
+
+        console.log(`Usuário removido com sucesso: ${infoUsuario.nome} (ID: ${idUsuario})`);
+    } catch (err) {
+        console.error('Erro ao remover usuário: ', err);
+        throw err;
+    }
+};
+
+
+
+module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete, obterFretesPorUsuario, obterTodosUsuarios, removerUsuario };
