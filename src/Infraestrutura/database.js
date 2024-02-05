@@ -17,14 +17,14 @@ const executeQuery = (query, values) => {
 const cadastrarUsuario = async (usuario) => {
     console.log("Início da função cadastrarUsuario");
 
-    const { nome, email, telefone, endereco, senha, isAdmin } = usuario;
+    const { nome, email, telefone, endereco, senha, isAdmin, token } = usuario;
 
     try {
         const hash = await bcrypt.hash(senha, 10);
         console.log("Hash gerado com sucesso:", hash);
 
-        const query = `INSERT INTO usuarios (nome, email, senha, isAdmin, telefone, endereco) VALUES (?, ?, ?, ?, ?, ?)`;
-        const values = [nome, email, hash, isAdmin, telefone, endereco];
+        const query = `INSERT INTO usuarios (nome, email, senha, isAdmin, telefone, endereco, token) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        const values = [nome, email, hash, isAdmin, telefone, endereco, token];
 
         console.log("Query de inserção:", query);
         console.log("Valores:", values);
@@ -130,48 +130,38 @@ const obterFretesPorUsuario = async (idUsuario) => {
 
 const obterTodosUsuarios = async () => {
     try {
-        const query = `
+      const query = `
         SELECT
-        u.nome,
-        u.email,
-        u.telefone,
-        IFNULL(f.local_entrega, 'N/A') AS local_entrega,
-        IFNULL(f.valor_frete, 'N/A') AS valor_frete
-    FROM usuarios u
-    LEFT JOIN fretes f ON u.id = f.id_usuario;`;
-
-        const results = await executeQuery(query);
-        return results;
+          u.id,
+          u.nome,
+          u.email,
+          u.telefone,
+          IFNULL(f.local_entrega, 'N/A') AS local_entrega,
+          IFNULL(f.valor_frete, 'N/A') AS valor_frete
+        FROM usuarios u
+        LEFT JOIN fretes f ON u.id = f.id_usuario;`;
+  
+      const results = await executeQuery(query);
+      return results;
     } catch (error) {
-        console.error('Erro ao obter todos os usuários:', error);
-        throw error;
+      console.error('Erro ao obter todos os usuários:', error);
+      throw error;
     }
-};
+  };
 
-const removerUsuario = async (idUsuario) => {
+
+const removerUsuario = async (userId) => {
+    const query = 'DELETE FROM usuarios WHERE id = ?';
+    const values = [userId];
+  
     try {
-        // Lógica para obter informações sobre o usuário antes da remoção
-        const queryObterUsuario = 'SELECT id, nome, email FROM usuarios WHERE id = ?';
-        const resultsUsuario = await executeQuery(queryObterUsuario, [idUsuario]);
-
-        if (!resultsUsuario[0]) {
-            console.error('Usuário não encontrado.');
-            throw new Error('Usuário não encontrado');
-        }
-
-        const infoUsuario = resultsUsuario[0];
-
-        // Lógica para remover o usuário
-        const queryRemoverUsuario = 'DELETE FROM usuarios WHERE id = ?';
-        await executeQuery(queryRemoverUsuario, [idUsuario]);
-
-        console.log(`Usuário removido com sucesso: ${infoUsuario.nome} (ID: ${idUsuario})`);
+      await executeQuery(query, values);
+      console.log('Usuário removido com sucesso!');
     } catch (err) {
-        console.error('Erro ao remover usuário: ', err);
-        throw err;
+      console.error('Erro ao remover usuário do banco de dados:', err);
+      throw err;
     }
-};
+  };
 
 
-
-module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete, obterFretesPorUsuario, obterTodosUsuarios, removerUsuario };
+module.exports = { cadastrarUsuario, autenticarUsuario, autenticarUsuarioPorId, atualizarUsuario, inserirFrete, obterFretesPorUsuario, obterTodosUsuarios, removerUsuario};

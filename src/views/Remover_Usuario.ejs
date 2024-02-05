@@ -43,7 +43,7 @@
                     <span class="text-lg font-bold leading-5 text-white">Dashboard</span>
                 </div>
             </a>
-            <a href="#" class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 ">
+            <a href="/Usuarios" class="w-full px-2 inline-flex space-x-2 items-center border-b border-slate-700 py-3 ">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
@@ -116,37 +116,66 @@
     <table class="w-full border border-gray-300 bg-white rounded shadow">
         <thead class="bg-gray-900 text-white">
             <tr>
-                <th scope="col" class="px-6 py-3">
-                    Usuario
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Email
-                </th scope="col" class="px-6 py-3">
-                <th>
-
-                </th>
+              <th scope="col" class="px-6 py-3">
+                ID
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Usuario
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Email
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Remover
+              </th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             <% usuarios.forEach(usuario => { %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <%= usuario.nome %>
-                    </th>
-                    <td class="px-6 py-4">
-                        <%= usuario.email %>
-                    </td>
-                    <td class="px-6 py-4">
-                        <form method="post" action="/removerUsuario/<%= usuario.id %>">
-                            <button type="submit">Remover</button>
-                        </form>
-                    </td>
-                </tr>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td class="px-6 py-4">
+                  <%= usuario.id %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= usuario.nome %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= usuario.email %>
+                </td>
+                <td class="px-6 py-4">
+                    <form id="removerUsuarioForm<%= usuario.id %>" onsubmit="removerUsuario('<%= usuario.id %>'); return false;">
+                      <button type="submit" class="cursor-pointer text-red-500">Remover usuário</button>
+                    </form>
+                  </td>
+              </tr>
             <% }); %>
-        </tbody>
-    </table>
+          </tbody>
+</div>
+            <div id="removerUsuarioPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div class="bg-white p-8 rounded-md">
+                <p class="text-xl font-bold mb-4">Usuário removido com sucesso!</p>
+                <button onclick="location.reload()" class="bg-blue-500 text-white py-2 px-4 rounded">Fechar</button>
+                </div>
+            </div>
 </div>
 
-</div>
+<script>
+    async function removerUsuario(id) {
+      try {
+        const response = await fetch(`/remover-usuario/${id}`, {
+          method: 'POST',
+        });
+  
+        if (response.ok) {
+          // Exibir o pop-up
+          document.getElementById('removerUsuarioPopup').classList.remove('hidden');
+        } else {
+          console.error(`Erro ao remover usuário ${id}: ${response.status} ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error(`Erro ao remover usuário ${id}:`, error);
+      }
+    }
+  </script>
 </body>
 </html>

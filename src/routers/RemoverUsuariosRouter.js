@@ -1,37 +1,32 @@
-const { Router } = require("express");
-const router = Router();
-const path = require("path");
-const { obterTodosUsuarios } = require('../Infraestrutura/database');
-
+const express = require("express");
+const router = express.Router();
+const { obterTodosUsuarios, removerUsuario } = require('../Infraestrutura/database');
 
 const isAuthenticated = (req, res, next) => {
-    req.session && req.session.usuario ? next() : res.redirect("/login-page");
+  req.session && req.session.usuario ? next() : res.redirect("/login-page");
 };
 
+// Rota para exibir a página de remoção de usuários
 router.get('/RemoverUsuario', isAuthenticated, async (req, res) => {
-    try {
-        const usuarios = await obterTodosUsuarios();
-        const filepath = path.join(__dirname, '../pages/Remover_usuario.ejs');
-        res.render('Remover_usuario', { usuario: req.session.usuario, usuarios });
-    } catch (error) {
-        console.error('Erro ao obter usuários:', error);
-        res.status(500).send('Erro ao obter usuários.');
-    }
+  try {
+    const usuarios = await obterTodosUsuarios();
+    res.render('Remover_usuario', { usuario: req.session.usuario, usuarios });
+  } catch (error) {
+    console.error('Erro ao obter usuários:', error);
+    res.status(500).send('Erro ao obter usuários.');
+  }
 });
 
-router.post('/removerUsuario/:id', isAuthenticated, async (req, res) => {
-    const usuarioId = req.params.id;
+router.post('/remover-usuario/:id', isAuthenticated, async (req, res) => {
+  const userId = req.params.id;
 
-    try {
-
-        await removerUsuario(usuarioId);
-
-        res.send("Removido com sucesso")
-    } catch (error) {
-        console.error('Erro ao remover usuário:', error);
-        res.status(500).send('Erro ao remover usuário.');
-    }
+  try {
+    await removerUsuario(userId);
+    res.status(200).send('Usuário removido com sucesso.');
+  } catch (error) {
+    console.error(`Erro ao remover usuário ${userId}:`, error);
+    res.status(500).send('Erro ao remover usuário.');
+  }
 });
-
 
 module.exports = router;

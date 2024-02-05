@@ -6,7 +6,10 @@ const router = require("../routers/index");
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const methodOverride = require('method-override');
 
+//config do method-override
+app.use(methodOverride('_method'));
 
 //config do express-session
 app.use(session({
@@ -32,6 +35,10 @@ app.use("/", loginRouter);
 app.get("/Login-Page", (req, res) => {
     const filepath = path.join(__dirname, "../pages/Login-page.html");
     res.sendFile(filepath);
+});
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    next();
 });
 
 
